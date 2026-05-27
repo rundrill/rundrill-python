@@ -1,6 +1,6 @@
 {
   "name": "rundrill-python",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Python coach — learn to read and review code (incl. AI-generated), with drills, progress, and mistake memory, inside your AI agent.",
   "author": {
     "name": "RunDrill",
@@ -9,6 +9,7 @@
   },
   "homepage": "https://rundrill.com",
   "repository": "https://github.com/rundrill/rundrill-python",
+  "license": "CC-BY-NC-ND-4.0",
   "keywords": ["rundrill", "course", "coach", "drills", "python", "code-review"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
@@ -25,6 +26,8 @@
       "Review some AI-written code and let me find the bug.",
       "Show my Python progress."
     ],
-    "brandColor": "#3B7AE0"
+    "brandColor": "#3B7AE0",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
   }
 }
