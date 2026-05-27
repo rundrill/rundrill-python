@@ -56,8 +56,11 @@ If invoked with no argument, run `status`, then continue into the next right sub
 motivator: a commit grid + per-band bars; never re-align or swap its glyphs). Below it, in plain
 words: the band + `milestone` (e.g. "12 of 30 senior topics solid"), the streak (and, if
 `engagement.days_since_last_drill ≥ 2`, one neutral "last drill: N days ago" line — no guilt), and
-the most common open misconception if any. End with one concrete next step. If `recalibration_hint`
-is set, offer a re-diagnose in one neutral line (never run it yourself). Then announce a short plan
+the most common open misconception if any. If `recap_since_last.topics_moved_forward` is non-empty,
+open with a one-line recap of what advanced since last time (e.g. *"Since last time: Closures →
+learning, Decorators → solid"*) — progress made visible. End with one concrete next step. If
+`recalibration_hint` is set, offer a re-diagnose in one neutral line (never run it yourself). Then
+announce a short plan
 (~3–5 drills, ~3 min each) and continue:
 - `level == null` → **diagnose** (includes first-time setup).
 - `track.track_needs_set == true` → **track gate**, then **practice**.
@@ -104,6 +107,10 @@ and the `format` you ran, `result: "ok"` only if fully right, plus a one-line cl
 clear named mistake with `record {action: "misconceptions_add", ...}`. The response carries
 `movements` — when non-empty, show one short line (e.g. *"Closures: to revisit → learning"*). Then
 call `practice` again until the plan count is reached; close with 2–4 honest lines.
+
+React briefly and specifically, not with generic praise: a correct answer can get a ≤6-word note
+("clean", "exactly right", "nice catch on the edge case"); a miss a ≤4-word ack ("close", "almost",
+"tricky one") — never praise a wrong answer, and not every item. Routine correctness is a silent ✓.
 
 If the brief's `topic` is `null`, the learner cleared their track — say so and offer to widen it.
 
