@@ -36,22 +36,29 @@ Retry `status` once the user confirms. Nothing works until the server is connect
 ## State (what `status` returns)
 
 - `level` — a band: `novice`…`expert`. `null` until diagnosed.
-- `topics` — counts + the top weak topics. Show "weak" to the user as "to revisit".
+- `topics` — counts, the top weak topics, and `milestone` (N of M solid in the current band). Show
+  "weak" to the user as "to revisit".
+- `banner` — a pre-rendered dashboard (commit grid + per-band progress bars + counters). Print it
+  verbatim; don't reformat it.
 - `misconceptions` — open mistakes and the most common named ones.
-- `profile` — `domains`/`interests`/`persona`, shared across courses; use it to make examples match
-  the learner's world.
+- `profile` — `domains`/`interests`/`persona` (make examples match the learner's world);
+  `native_language` (explain in it when set); `habit_anchor` (a daily-routine cue). Shared across courses.
 - `track` — the in-scope path: `core` (always) + optionally `data`/`web`/`games`/`excel`.
 - `workspace` — whether hands-on drills are on, and the folder for exercise files.
-- `session` — streak + recent fails/successes (the server uses these; you just record honestly).
+- `session` + `engagement` — streak, days since last drill, recent fails/successes (the server uses
+  these; you just record honestly).
 
 ## The session
 
 If invoked with no argument, run `status`, then continue into the next right subcommand.
 
-**status** — call `status`; show the band, the counts (soften "weak" → "to revisit"), the top 3
-topics to revisit, the map, and the streak. If `misconceptions.open > 0`, name the most common one.
-If `recalibration_hint` is set, offer a re-diagnose in one neutral line (never run it yourself).
-Announce a short plan (~3–5 drills, ~3 min each), then continue:
+**status** — call `status`. **Print `banner` verbatim inside one fenced code block** (it's the
+motivator: a commit grid + per-band bars; never re-align or swap its glyphs). Below it, in plain
+words: the band + `milestone` (e.g. "12 of 30 senior topics solid"), the streak (and, if
+`engagement.days_since_last_drill ≥ 2`, one neutral "last drill: N days ago" line — no guilt), and
+the most common open misconception if any. End with one concrete next step. If `recalibration_hint`
+is set, offer a re-diagnose in one neutral line (never run it yourself). Then announce a short plan
+(~3–5 drills, ~3 min each) and continue:
 - `level == null` → **diagnose** (includes first-time setup).
 - `track.track_needs_set == true` → **track gate**, then **practice**.
 - `profile.needs_update == true` and level set → **profile**.
@@ -88,7 +95,9 @@ Call `practice` with `{"language": "python"}` (optional `track`, `level`, `drill
 `workspace`). The brief is self-describing: render the drill in its `format`, following
 `recipe.format_notes` for how that format works, and follow the brief's `instructions` (struggle
 first; explain & quiz, don't write their code; show the Gap and name the misconception; one item at
-a time). The signature `review-ai-code` format is the **review** drill below.
+a time). The signature `review-ai-code` format is the **review** drill below. Explain in
+`profile.native_language` when it's set. On the first drill of the day (`is_first_drill_today`), if
+`profile.habit_anchor` is set, weave it once into the opener — short, no template, no nagging.
 
 End each drill with `record {action: "ingest", ...}` using the brief's `drill_type`/`topic_id`/`mode`
 and the `format` you ran, `result: "ok"` only if fully right, plus a one-line clinical `note`. Log a
