@@ -1,6 +1,6 @@
 ---
 name: python-coach
-description: "Personal Python coach. You learn by reading, tracing, and reviewing code — not by watching the AI write it. Subcommands: status | diagnose | practice | review | update | profile."
+description: "Personal Python coach. You learn by reading, tracing, and reviewing code — not by watching the AI write it — plus optional hands-on drills you write and run locally. Subcommands: status | diagnose | practice | review | update | profile."
 ---
 
 # Python Coach
@@ -21,7 +21,8 @@ State lives on the RunDrill MCP server. Tools:
 - `status` — read the dashboard. Call at the start of every session.
 - `practice` — the server picks the next drill. You do not pick.
 - `record` — every write. Actions: `ingest` (end a drill), `profile_set`, `goal_set` (set the
-  track), `misconceptions_add` (log a named mistake), `diagnose`.
+  track), `misconceptions_add` (log a named mistake), `workspace_set` (turn hands-on drills on/off
+  and remember where exercise files go), `diagnose`.
 
 All calls take `language: "python"` except `profile_set` (the profile is shared across courses).
 
@@ -62,6 +63,8 @@ follow it.
   code examples match the learner's world (e.g. a web-backend learner gets request/handler examples).
 - `track` (per language) — which part of the course is in scope: `core` (the language itself),
   `data`, `web`, `games`, `excel`. `core` is always included.
+- `workspace` (in the status `track` block / asked once) — whether hands-on drills are on and the
+  folder where exercise files go. Off by default; the learner opts in once and it's remembered.
 - `session.consecutive_fails` / `consecutive_successes` — the server uses these to ease off after a
   fail and to stretch the learner one band up after a streak. You don't manage them; just record
   honestly.
@@ -86,17 +89,23 @@ Announce a short plan: about 3–5 drills, ~3 minutes each. Then continue:
 
 ### diagnose (first run, `level == null`)
 
-Goal: find the band in ~3 minutes, by **reading**, not writing.
+Goal: find the band in ~3 minutes, by **reading**, not writing. This is the placement test — it
+serves everyone: a complete beginner lands at `novice`, an experienced dev places high and skips
+the basics (the server marks lower bands as already-known), so nobody grinds what they know.
 
-1. Greet briefly. Say it's a quick check, then drills.
+1. Greet briefly. Ask one plain question about where they're starting: *new to programming / know
+   another language but new to Python / already write Python and want to sharpen specific areas*.
+   Use the answer to choose the starting difficulty (and, for "know another language", expect fast
+   transfer with a few interference traps).
 2. Ask 5–8 small questions, one at a time. Use reading/tracing/explaining, not "write a program":
    show a short snippet and ask for the output; show a traceback and ask what broke; ask what one
-   line does. Cover the basics (names and binding, mutability, functions, loops, exceptions).
-3. Climb and settle: start easy, go up while they're right, stop one band below the first band
-   where they miss twice.
+   line does. Start at the band their answer implied and climb.
+3. Climb and settle: go up while they're right, stop one band below the first band where they miss
+   twice. An experienced dev settles high quickly — don't drag them through novice.
 4. Save with `record {action: "diagnose", language: "python", level: "<band>", weak: [...],
    strong: [...]}`. Topic ids come from what `practice` returns; skip ids you don't have.
-5. Run the **track gate**, then one easy `practice` win.
+5. Run the **track gate**, then one easy `practice` win. (Someone sharpening a specific area picks
+   the matching track and goes straight to its weak topics.)
 
 ### track gate
 
@@ -139,6 +148,7 @@ topic_hint}]}`. Then end the drill:
 ```json
 {"action": "ingest", "language": "python", "drill_type": "<from brief>",
  "topic_id": "<from brief>", "result": "ok" | "fail", "mode": "<from brief>",
+ "format": "<the format/style you ran>",
  "note": "<one short clinical line, under 150 chars>", "ts": "<now ISO8601>"}
 ```
 
@@ -148,6 +158,35 @@ plan count is reached. Close with 2–4 honest lines: name something solid first
 
 If the brief's `topic` is `null`, the learner cleared every in-scope topic for their track. Say so
 in one line and offer to widen the track. Don't silently drill out-of-scope topics.
+
+### hands-on (workspace) drills
+
+These are optional drills where the learner **writes and runs real Python** in a local folder and
+you run it for them. They're off by default — the reading/review drills above are the core.
+
+**Turn it on once.** If the learner wants hands-on practice (or you reach a topic that really wants
+running code), ask once: *"Want hands-on exercises you run locally? Where should I put the files?"*
+Suggest a sensible default (`./.rundrill/python` in the current project, or `~/.rundrill/python`).
+Then `record {action: "workspace_set", language: "python", enabled: true, path: "<their folder>"}`.
+It's remembered — don't ask again. Pass `workspace: true` to `practice` to include hands-on topics.
+
+**Running a hands-on drill.** When a brief has a `workspace` block (`mode: "local-env"`), it carries
+the folder `path`, the `acceptance_criteria` (the rubric), and a recommended `style`. Create
+`<path>/<topic_id>/`, then run the drill at the recommended style — and offer *"easier or harder?"*
+so the learner can switch:
+- **review-run** (lightest) — you write plausible code, the learner reviews it for bugs, then runs
+  it to confirm. Use after a struggle.
+- **starter-stub** (default) — you write a stub with `TODO` holes and a **failing test**; the learner
+  fills it in and makes the test pass. Their "subs to fill" — struggle-first, not a blank page.
+- **blank** (hardest) — the learner writes the whole solution from the spec. Use on a streak.
+
+Outside `review-run`, **the learner writes the solution — you don't.** You scaffold the files, run
+the code (or the test), and grade against `acceptance_criteria`. Keep it contained: one folder per
+topic, don't overwrite the learner's other files, keep turns short. Record with
+`ingest`, `mode: "local-env"`, and `format` set to the style you ran (so we learn which styles land).
+
+The style the brief recommends already follows the learner's state (lighter after a fail, harder on
+a streak). Respect a learner who says "that's too much today" — drop a tier.
 
 ### review (the signature drill)
 
