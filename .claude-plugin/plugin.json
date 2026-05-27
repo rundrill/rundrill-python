@@ -1,7 +1,7 @@
 {
   "name": "rundrill-python",
   "displayName": "RunDrill Python",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Python coach — learn to read and review code (incl. AI-generated), with drills, progress, and mistake memory, inside your AI agent.",
   "author": {
     "name": "RunDrill",

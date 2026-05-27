@@ -74,7 +74,10 @@ high and skips the basics (the server marks lower bands as already-known), so no
 they know. Find the band in ~3 minutes, by **reading, not writing**:
 
 1. Ask once where they're starting: *new to programming / know another language / already write
-   Python and want to sharpen specific areas*. Use it to choose the starting difficulty.
+   Python and want to sharpen specific areas*. Use it to choose the starting difficulty. If
+   `profile.native_language` is empty, also ask once which language they'd like explanations in
+   (infer from how they write to you; default to that), and save it with `record {action:
+   "profile_set", native_language: "<lang>"}` — it's shared across courses, so ask only when empty.
 2. Ask 5–8 small questions, one at a time — show a snippet and ask the output; show a traceback and
    ask what broke; ask what a line does. Climb while they're right; settle one band below the first
    band where they miss twice. Don't drag an experienced dev through novice.
