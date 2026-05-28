@@ -78,7 +78,7 @@ they know. Find the band in ~3 minutes, by **reading, not writing**:
    `profile.native_language` is empty, also ask once which language they'd like explanations in
    (infer from how they write to you; default to that), and save it with `record {action:
    "profile_set", native_language: "<lang>"}` — it's shared across courses, so ask only when empty.
-2. Ask 5–8 small questions, one at a time — show a snippet and ask the output; show a traceback and
+2. Tell the learner it's a short placement (~6 quick questions) and ask 5–8 small questions **one at a time, announcing where they are each time** ("question 2 of ~6") — show a snippet and ask the output; show a traceback and
    ask what broke; ask what a line does. Climb while they're right; settle one band below the first
    band where they miss twice. Don't drag an experienced dev through novice.
 3. Save with `record {action: "diagnose", language: "python", level: "<band>", weak: [], strong: []}`
