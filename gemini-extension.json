@@ -1,0 +1,17 @@
+{
+  "name": "rundrill-python",
+  "version": "0.2.6",
+  "description": "Python coach — learn to read and review code (incl. AI-generated), with drills, progress, and mistake memory, inside your AI agent.",
+  "author": {
+    "name": "RunDrill",
+    "email": "hello@rundrill.com",
+    "url": "https://rundrill.com"
+  },
+  "homepage": "https://rundrill.com",
+  "license": "CC-BY-NC-ND-4.0",
+  "mcpServers": {
+    "rundrill-python": {
+      "serverURL": "https://mcp.rundrill.com/prog/python"
+    }
+  }
+}
