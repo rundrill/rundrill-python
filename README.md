@@ -23,21 +23,22 @@ own manifest and ignores the rest.
 | OpenAI Codex | `.codex-plugin/plugin.json` + `.mcp.json` |
 | Google Antigravity | `plugin.json` + `mcp_config.json` (+ `rules/`) |
 
-The MCP endpoint is `https://mcp.rundrill.com/prog` — the programming-course host that Python (and
-later Rust, JavaScript) share, passing `language: "python"`. On first use the host opens a browser
+The MCP endpoint is `https://mcp.rundrill.com/prog/python` — the programming-course host, passing
+`language: "python"`. The server routes on the `/prog` segment and ignores the course name; the name
+makes Python register as its own MCP server in your agent. On first use the host opens a browser
 tab for the OAuth handshake, then closes it — no API key to paste.
 
 ## Install
 
 - **Claude Code / Desktop** — via the RunDrill marketplace:
   ```
-  /plugin marketplace add rundrill/marketplace
+  /plugin marketplace add rundrill/rundrill
   /plugin install rundrill-python@rundrill
   ```
   Then run `/python-coach`.
 - **OpenAI Codex** — add the RunDrill catalog, then install `rundrill-python`:
   ```
-  codex plugin marketplace add rundrill/marketplace
+  codex plugin marketplace add rundrill/rundrill
   ```
 - **Google Antigravity** — drop this folder into `~/.gemini/config/plugins/rundrill-python/` (global)
   or `<workspace>/.agents/plugins/rundrill-python/` (workspace-scoped).
