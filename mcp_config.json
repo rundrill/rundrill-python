@@ -1,7 +1,6 @@
 {
   "mcpServers": {
     "rundrill-python": {
-      "serverURL": "https://mcp.rundrill.com/prog/python",
       "serverUrl": "https://mcp.rundrill.com/prog/python"
     }
   }
