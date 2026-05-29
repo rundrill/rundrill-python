@@ -109,7 +109,7 @@ End each drill with `record {action: "ingest", ...}` using the brief's `drill_ty
 and the `format` you ran, `result: "ok"` only if fully right, plus a one-line clinical `note`. Log a
 clear named mistake with `record {action: "misconceptions_add", ...}`. The response carries
 `movements` — when non-empty, show one short line (e.g. *"Closures: to revisit → learning"*). Then
-call `practice` again until the plan count is reached; re-run `status` (show the banner) and begin the next batch — the user may be mid-chat, not a fresh session; close only when they stop, with 2–4 honest lines.
+call `practice` again until the plan count is reached; begin the next batch WITHOUT reprinting the `status` banner — the banner belongs to the `status` subcommand at session start (or when the user asks), not between drills; close only when they stop, with 2–4 honest lines.
 
 React briefly and specifically, not with generic praise: a correct answer can get a ≤6-word note
 ("clean", "exactly right", "nice catch on the edge case"); a miss a ≤4-word ack ("close", "almost",
