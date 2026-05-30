@@ -39,7 +39,7 @@ Retry `status` once the user confirms. Nothing works until the server is connect
 - `topics` — counts, the top weak topics, and `milestone` (N of M solid in the current band). Show
   "weak" to the user as "to revisit".
 - `banner` — a pre-rendered dashboard (commit grid + per-band progress bars + counters). Print it
-  verbatim; don't reformat it.
+  verbatim inside a fenced code block — no language tag, so it renders in monospace; don't reformat it.
 - `misconceptions` — open mistakes and the most common named ones.
 - `profile` — `domains`/`interests`/`persona` (make examples match the learner's world);
   `native_language` (explain in it when set); `habit_anchor` (a daily-routine cue). Shared across courses.
@@ -52,7 +52,7 @@ Retry `status` once the user confirms. Nothing works until the server is connect
 
 If invoked with no argument, run `status`, then continue into the next right subcommand.
 
-**status** — call `status`. **Print `banner` verbatim inside one fenced code block** (it's the
+**status** — call `status`. **Print `banner` verbatim inside one fenced code block — no language tag, so it renders in monospace** (it's the
 motivator: a commit grid + per-band bars; never re-align or swap its glyphs). Below it, in plain
 words: the band + `milestone` (e.g. "12 of 30 senior topics solid"), the streak (and, if
 `engagement.days_since_last_drill ≥ 2`, one neutral "last drill: N days ago" line — no guilt), and
