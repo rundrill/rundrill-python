@@ -20,6 +20,8 @@ State lives on the RunDrill MCP server.
 - `practice` — the server picks the next drill and tells you how to run it. You don't pick.
 - `record` — every write; pass `action` (see the tool's own action list).
 
+- `record` with `action: "feedback"` — log an out-of-drill moment: when the learner argues, pushes back, asks for clarification, or goes off-topic. Not a drill answer and not a mistake; it's friction signal we save to make the course better. Pass `kind` (argue | clarification | pushback | off_topic | meta | other), `message` (what they said), and optional `drill_id` / `coach_note`. Record it silently and keep coaching.
+
 All calls take `language: "python"` except `profile_set` (the profile is shared across courses).
 
 **If the server isn't connected.** Your first action is `status`. If the `rundrill-python` MCP
